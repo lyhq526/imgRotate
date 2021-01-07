@@ -10,15 +10,25 @@
             margin: 0;
             padding: 0;
         }
-        html,body {
+
+        html,
+        body {
             width: 100%;
             height: 100%;
         }
-        body {
+
+        /* body {
+    overflow: hidden;
+    perspective: 1300px;
+} */
+        .lottery-dom {
             overflow: hidden;
             perspective: 1300px;
+            width: 100%;
+            height: 100%;
         }
-        ul {
+
+        .lottery-dom ul {
             position: relative;
             width: 100%;
             height: 100%;
@@ -27,10 +37,11 @@
             list-style: none;
             transform-style: preserve-3d;
             transform: rotateY(0deg);
-            animation: flash 50s linear infinite 1.2s;
+            animation: flashOne 50s linear infinite 1.2s;
         }
-        ul li {
-            font-size: 52px;
+
+        .lottery-dom ul li {
+            font-size: 32px;
             text-align: center;
             color: #fff;
             position: absolute;
@@ -39,7 +50,8 @@
             transition: all 1.2s ease;
             transform: translateX(-50%) translateY(-50%) rotateY(180deg) translateZ(1300px);
         }
-        @keyframes flash {
+
+        @keyframes flashOne {
             from {
                 transform: rotateY(360deg);
             }
@@ -48,10 +60,17 @@
                 transform: rotateY(0deg);
             }
         }
-        li>div {
+
+        .lottery-dom ul li>.card-div {
             width: 200px;
             height: 200px;
             margin-bottom: 20px;
+            display: flex;
+            transform: rotateY(180deg);
+            padding: 40px 0;
+            flex-direction: column;
+            box-sizing: border-box;
+            justify-content: space-between;
         }
 
         .lottery-scroll {
@@ -71,6 +90,7 @@
             /*给父盒子增加透视*/
             transform-style: preserve-3d;
         }
+
         .lottery-scroll>div {
             width: 8%;
             padding: 8% 0 0 0;
@@ -87,6 +107,7 @@
             transform-style: preserve-3d;
             /*设置成3D样式*/
         }
+
         .lottery-scroll>div img {
             width: 100%;
             height: 100%;
@@ -99,6 +120,7 @@
             background-color: #fff;
             box-shadow: 0 0 30px #fff;
         }
+
         .lottery-item {
             position: absolute;
             top: 50%;
@@ -124,6 +146,7 @@
             transform-style: preserve-3d;
             /*设置成3D样式*/
         }
+
         .cubebox {
             width: 100%;
             height: 100%;
@@ -131,6 +154,7 @@
             transform-style: preserve-3d;
             transform: rotateX(-10deg);
         }
+
         .cube {
             width: 50%;
             height: 50%;
@@ -142,52 +166,65 @@
             transform: rotateY(20deg) rotateX(20deg) translateZ(-100px);
             animation: name 3s linear infinite;
         }
+
         @keyframes name {
             0% {
                 transform: rotateX(0deg) rotateY(0deg);
             }
+
             25% {
                 transform: rotateY(90deg) rotateX(180deg);
             }
+
             50% {
                 transform: rotateY(180deg) rotateX(360deg);
             }
+
             75% {
                 transform: rotateY(270deg) rotateX(540deg);
             }
+
             100% {
                 transform: rotateY(360deg) rotateX(720deg);
             }
         }
+
         /*最左边的图片位置*/
-        .first {
+        .lottery-scroll>div img:nth-child(1) {
             transform: translateX(-50%) rotateY(-90deg);
         }
+
         /*最前面的图片位置*/
-        .second {
+        .lottery-scroll>div img:nth-child(2) {
             transform: translateZ(50px);
         }
+
         /*最右边的图片位置*/
-        .third {
+        .lottery-scroll>div img:nth-child(3) {
             transform: translateX(50%) rotateY(90deg);
         }
+
         /*最后面的图片位置*/
-        .fourth {
+        .lottery-scroll>div img:nth-child(4) {
             transform: translateZ(-50px);
         }
+
         /*最下面的图片位置*/
-        .fifth {
+        .lottery-scroll>div img:nth-child(5) {
             transform: translateY(50%) rotateX(90deg);
         }
+
         /*最上面的图片位置*/
-        .sixth {
+        .lottery-scroll>div img:nth-child(6) {
             transform: translateY(-50%) rotateX(90deg);
         }
     </style>
 </head>
+
 <body>
+    <div class="lottery-dom"></div>
     <div class="lottery-scroll">
-        <div style="width: 30%; padding: 30% 0px 0px; top: 60%; left: 35%;">
+        <!-- <div style="width: 30%; padding: 30% 0px 0px; top: 60%; left: 35%;">
             <div class="lottery-item">
                 <div class="cubebox">
                     <div class="cube">
@@ -207,46 +244,88 @@
                 </div>
                 <p></p>
             </div>
-        </div>
+        </div> -->
     </div>
     <script>
-        let vNode = document.createElement("ul");
-        let styleStr = ''
-        for (let i = 0; i < 36; i++) {
-            let dom = document.createElement('li')
-            styleStr = styleStr + `
-            @keyframes flash${i + 1} {
-                from {
-                    transform: translateX(-50%) translateY(-50%) rotateY(180deg) translateZ(1300px);
-                }
-                to {
-                    transform: translateX(-50%) translateY(-50%) rotateY(${(i + 1) * 10}deg) translateZ(1300px);
-                }
-            }`
-            dom.style.animation = `flash${i + 1} 1s ease forwards`
-            for (let k = 0; k < 5; k++) {
-                let div = document.createElement("div")
-                div.style.transform = "rotateY(180deg)";
-                div.innerText = Math.floor(Math.random() * 504)
-                div.style.background = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
-                div.style.marginBottom = "20px"
-                dom.appendChild(div)
-            }
-            vNode.appendChild(dom)
+        let url = ['https://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJYiczF1YpfSlQFNQrgJDTibOiasIRQOlIXtV0cjKSXQ85pL5WPzzylEbnX1XicZdTaMKVDvibOM3PVxdQ/132', 'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJ8F3MYHD8AUEia0lEnBYMXB8IDGLTgakiaQpDgPTodiatoG7wwC0qKcdnZN4T8WQBujriam8DBB2ef7w/132', 'https://thirdwx.qlogo.cn/mmopen/vi_32/jJj31ibx2or16vz2IYlWRyde1h8ddEe4GB61tE5C6QgnvObrNZlIicwsDUNnwsXHeibs85O4xdQ5Cc1KnyP7OmnRw/132', 'https://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJfq2ic0RJY8IP8b5CPC7Rr5AdBJrTzwSrqEKyVo0hxmiag6ibib2dfYBUIAcxstPV1nnS3aKUPZweu5A/132', 'https://thirdwx.qlogo.cn/mmopen/vi_32/4axU6BDibWvYnTdRxUkGA8Iks25iaSQx8ZMoZcGcL0rAP3AepgdREKHkA3K1MnoL5HrhsfGDcogjEG8WxD14PvUA/132', 'https://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJBz7JfrY8qKk9Qo4mSXSiam0bFjL2Bbh7WYXiahDcRib7kPdZnwFdk1KiaaVialrwSwyFrVXv6G1fkzCA/132']
+//入参为人员数据 数据格式为[name,mobile,id]
+window.onload = function (val) {
+    let lotteryDom = document.getElementsByClassName("lottery-dom")[0]
+    let lotteryScroll = document.getElementsByClassName("lottery-scroll")[0]
+    lotteryScroll.appendChild(initReact())
+    let vNode = document.createElement("ul");
+    let styleStr = ''
+    let index = 0
+    for (let i = 0; i < 36; i++) {
+        let dom = document.createElement('li')
+        styleStr = styleStr + `
+    @keyframes flash${i + 1} {
+        from {
+            transform: translateX(-50%) translateY(-50%) rotateY(180deg) translateZ(1300px);
         }
-        const style = document.createElement('style');
-        style.type = 'text/css';
-        style.innerHTML = styleStr;
-        document.head.appendChild(style);
-        document.body.appendChild(vNode)
-        let second = document.getElementsByClassName("second")[0]
-        let fourth = document.getElementsByClassName("fourth")[0]
-        resizeWindow()
-        window.onresize = resizeWindow
-        function resizeWindow() {
-            second.style.transform = `translateZ(${-window.innerWidth / 14.5}px)`
-            fourth.style.transform = `translateZ(${window.innerWidth / 14.5}px)`
+        to {
+            transform: translateX(-50%) translateY(-50%) rotateY(${(i + 1) * 10}deg) translateZ(1300px);
         }
+    }`
+        dom.style.animation = `flash${i + 1} 1s ease forwards`
+        for (let k = 0; k < 5; k++) {
+            let div = document.createElement("div")
+            div.innerHTML = `<div>${randomNum(180)}</div>`
+            div.className = "card-div"
+            div.style.background = `rgb(${randomNum(255)},${randomNum(255)},${randomNum(255)})`
+            dom.appendChild(div)
+            index++
+        }
+        vNode.appendChild(dom)
+    }
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = styleStr;
+    document.head.appendChild(style);
+    lotteryDom.appendChild(vNode);
+    let second = document.getElementsByClassName("img")[1]
+    let fourth = document.getElementsByClassName("img")[3]
+    resizeWindow()
+    window.onresize = resizeWindow
+    setInterval(() =>{
+        changeCard(180)
+    }, 100);
+    function resizeWindow() {
+        second.style.transform = `translateZ(${-window.innerWidth / 14.5}px)`
+        fourth.style.transform = `translateZ(${window.innerWidth / 14.5}px)`
+    }
+}
+//切换卡片
+function changeCard(length) {
+    let dom = document.getElementsByClassName('card-div')
+    let index = randomNum(length)
+    let num = randomNum(180)
+    dom[num].innerHTML = `<div>${randomNum(180)}</div>`
+    dom[num].style.background = `rgb(${randomNum(255)},${randomNum(255)},${randomNum(255)})`
+}
+function randomNum (val) {
+    return Math.floor(Math.random() * val)
+}
+function initReact() {
+    let div = document.createElement("div")
+    div.style.cssText = 'width: 30%; padding: 30% 0px 0px; top: 60%; left: 35%;'
+    let lotteryItem = document.createElement('div')
+    let cubebox = document.createElement("div")
+    let cube = document.createElement("div")
+    cube.className = 'cube'
+    cubebox.className = 'cubebox'
+    lotteryItem.className = 'lottery-item'
+    for (let i = 0; i < 6; i++) {
+        let img = document.createElement("img");
+        img.className = 'img'
+        img.src = url[i]
+        cube.appendChild(img)
+    }
+    cubebox.appendChild(cube)
+    lotteryItem.appendChild(cubebox)
+    div.appendChild(lotteryItem)
+    return div
+}
     </script>
 </body>
 
